@@ -47,3 +47,12 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@62f4f872db3836360b72999f4b87f1ff13310f3a
+
+      - name: tag images
+        run: |
+          docker tag backend:latest 103886749662.dkr.ecr.us-east-1.amazonaws.com/backend-k:latest
+          docker push 103886749662.dkr.ecr.us-east-1.amazonaws.com/backend-k:latest
+          docker tag database:latest 103886749662.dkr.ecr.us-east-1.amazonaws.com/database-k:latest
+          docker push 103886749662.dkr.ecr.us-east-1.amazonaws.com/database-k:latest
+          docker tag frontend:latest 103886749662.dkr.ecr.us-east-1.amazonaws.com/frontend-k:latest
+          docker push 103886749662.dkr.ecr.us-east-1.amazonaws.com/frontend-k:latest
