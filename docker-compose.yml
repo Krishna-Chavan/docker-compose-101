@@ -1,35 +1,31 @@
 version: '3'
 
 services:
-  frontend:
-    image: nginx:latest
-    container_name: Frontend
+  backend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: frontend:latest
     ports:
       - "80:80"
     volumes:
-      - ./frontend:/usr/share/nginx/html:ro
-    depends_on:
-      - backend
+      - ./nginx/html:/usr/share/nginx/html:ro
 
-  backend:
-    image: tomcat:latest
-    container_name: Backend
+  frontend:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    image: backend:latest
     ports:
       - "8080:8080"
     volumes:
-      - ./backend:/usr/local/tomcat/webapps
-    environment:
-      - MYSQL_HOST=db
-      - MYSQL_PORT=3306
-      - MYSQL_DATABASE=my_database
-      - MYSQL_USER=my_user
-      - MYSQL_PASSWORD=my_password
-    depends_on:
-      - db
+      - ./tomcat/webapps:/usr/local/tomcat/webapps
 
   db:
-    image: mysql:latest
-    container_name: Database
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    image: database:latest
     ports:
       - "3306:3306"
     environment:
@@ -38,4 +34,4 @@ services:
       - MYSQL_USER=my_user
       - MYSQL_PASSWORD=my_password
     volumes:
-      - ./mysql_data:/var/lib/mysql
+      - ./mysql/data:/var/lib/mysql
