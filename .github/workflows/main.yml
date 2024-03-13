@@ -30,7 +30,9 @@ jobs:
           sudo apt-get install -y docker-ce docker-ce-cli containerd.io
           
       - name: Build Docker images
+        run: docker-compose build
+
+      - name: images
         run: |
-          docker-compose build
           pwd
           docker images
